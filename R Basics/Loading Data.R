@@ -30,6 +30,11 @@ install.packages(haven)
 library(haven)
 dataset <-read_sas("S:/AdHoc/SAS_CHNL_MGMT/Everyday Products/Historical Everyday Card Performance/Output Data/hecp_final.sas7bdat",   NULL)
 
+
+#save and load R extensions
+save(mtcars, file = "mtcars.Rda")
+load("mtcars.Rda")
+
 #connect to Teradata
 #set up connections and connect from instructions
 #install DBI package
