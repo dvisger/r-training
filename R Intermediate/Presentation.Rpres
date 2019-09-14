@@ -1,0 +1,738 @@
+R Training: Intermediate
+========================================================
+author: 
+date: 2019-09-17
+width: 1440
+height: 900
+<style>
+body {
+    overflow: scroll;
+}
+</style>
+
+Agenda
+========================================================
+
+- Introduction 
+- Data Wrangling
+- Break
+- Visualization
+
+Follow along in R by running what is in the code block  
+## Please ask questions as we go!
+***
+  
+Please install packages to start: 
+```{r, eval=FALSE}
+install.packages("tidyverse")
+install.packages("nycflights13")  
+```
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+Introduction
+=======================================================
+-  Recap basics
+-  Logistics
+-  Workflow
+-  Import
+-  Explore
+
+Recap Basics
+=======================================================
+-  Understand what R is and what is used for
+-  Able to navigate around and use RStudio
+-  Understand the main data types and ways data are organized
+  - Double, Integer, Character, Logical
+  - Vector, Matrix, Lists, Data frames
+-  Understand how to use functions and packages
+-  Able to import data into the environment
+-  Start a project and why you would want to organize work this way
+
+Logistics
+========================================================
+```{r}
+sessioninfo::platform_info()
+```
+
+Logistics
+========================================================
+```{r}
+package <- sessioninfo::package_info(pkgs = c("dplyr", "tidyr", "nycflights13", "ggplot2") , dependencies = FALSE)
+```
+```{r, echo = FALSE}
+library(kableExtra)
+library(knitr)
+kable(package) %>% scroll_box(width = "100%")
+```
+
+Workflow
+========================================================
+- Import 
+- **Explore data**
+- **Wrangle**
+- **Visualize**
+- Model
+- Communicate
+
+Import
+========================================================
+- Import csv with readr::read_csv
+- Import excel with readxl::read_excel
+- Import sas with haven::read_sas
+- Connect to db with odbc/jdbc connectors
+  - obdc with odbc package and connection pane (windows)
+  - jdbc with RJDBC package (server)
+  - DBI::dbGetQuery(connection_name, "SQL CODE")
+
+Import
+========================================================
+- From a package:
+```{r, eval = FALSE}
+View(flights)
+```
+```{r, echo = FALSE}
+kable(head(flights)) %>% scroll_box(width = "100%")
+```
+
+
+Explore
+========================================================
+- Simply click on df in Environment to preview, same as View(df)
+- names(df) for column names
+- head(df) for top 6 rows
+- glimpse(df) for columns, data types and sample
+- summary(df) for summary statistics
+  - Min, Quartiles, mean, # of NAs
+
+
+  
+Data Wrangling 
+========================================================
+
+- Background and basics 
+- Data Wrangling Part 1: Subset
+- Data Wrangling Part 2: Make new variables
+- Data Wrangling Part 3: Combine data sets
+- Data Wrangling Part 4: Summarizing
+
+Data Wrangling 
+========================================================
+
+- **Background and basics** 
+- Data Wrangling Part 1: Subset
+- Data Wrangling Part 2: Make new variables
+- Data Wrangling Part 3: Combine data sets
+- Data Wrangling Part 4: Summarizing
+tidyverse
+========================================================
+-  functions in tidyverse are optimized for R's vectorized operations  
+-  requires "tidy data"
+  -  each variable is a column
+  -  each observations is a row
+  -  unique values are in cells  
+![tidy](tidy.PNG)  
+source: https://r4ds.had.co.nz/tidy-data.html#fig:tidy-structure
+
+
+
+dplyr basics
+========================================================
+- goal is to make easy to read data wrangling functions that are consistent 
+- Main functions 
+  - select
+  - filter
+  - arrange
+  - mutate
+  - joins: inner, left, anti
+  - group_by
+  - summarize
+- first argument is data
+- subsequent arguments describe what to do
+- functions can be chained together with pipes: %>% 
+- results in new data frame
+
+Data Wrangling 
+========================================================
+
+- Background and basics 
+- **Data Wrangling Part 1: Subset**
+- Data Wrangling Part 2: Make new variables
+- Data Wrangling Part 3: Combine data sets
+- Data Wrangling Part 4: Summarizing
+
+Data Wrangling: Subset Objectives
+========================================================
+
+  - Subset on rows and columns 
+  - Sort rows
+  - Understand the use of the pipe operator
+
+
+dplyr::select()  
+========================================================
+
+```{r, eval=FALSE}
+View(cars)
+```
+<div align="center">
+```{r, echo= FALSE}
+kable(head(cars))
+```
+</div>
+
+```{r}
+select(cars, speed)
+
+```
+
+
+dplyr::select() 
+========================================================
+incremental: true
+
+Example to try:  
+data is cars  
+variable to select is dist
+
+```{r}
+select(cars, dist)
+
+```
+
+dplyr::filter()
+========================================================
+
+filter rows with logical and boolean operators
+```{r}
+filter(cars, speed < 8)
+```
+
+
+Logical operators
+========================================================
+
+![logic](logic.PNG)
+
+Source: https://rstudio-education.github.io/hopr/modify.html#logical-subsetting
+
+Boolean operators
+========================================================
+
+![logic](boolean.PNG)
+
+Source: https://rstudio-education.github.io/hopr/modify.html#logical-subsetting
+
+dplyr::filter()  
+========================================================
+
+multiple logic joined with &
+```{r, eval = FALSE}
+filter(cars, speed < 8, dist < 10 )
+
+```
+or 
+```{r}
+filter(cars, speed < 8 & dist < 10 )
+```
+
+dplyr::filter()  
+========================================================
+incremental: true
+
+Example:  
+data is cars  
+where speed is less than 10 and dist is greater than 10  
+```{r}
+filter(cars, speed < 10, dist > 10)
+```
+
+
+dplyr::filter()  
+========================================================
+
+multiple conditions joined by a pipe (|) for or logic: 
+```{r}
+filter(cars, speed < 8 | dist < 10 )
+```
+
+dplyr::filter()  
+========================================================
+incremental: true
+
+Example:  
+data is cars
+where speed is less than 10 **or** dist greater than 10
+
+```{r}
+filter(cars, speed < 10 | dist > 10)
+```
+
+ %>% 
+========================================================
+
+Pipe: %>%  
+Takes the outputs from first function and passes as inputs to next function  
+String together functions  
+shortcut: ctrl + shift + m  
+and then...
+
+
+%>% 
+========================================================
+
+Using the select and filter together:
+```{r}
+select(cars, speed) %>% 
+  filter(speed < 8 )
+```
+
+note: data argument is reused in subsequent functions when using pipes 
+
+%>% 
+========================================================
+incremental: true
+
+Example:  
+data is cars  
+select dist variable and filter where dist less than 7  
+```{r}
+select(cars, dist) %>% 
+  filter(dist <  7)
+```
+
+
+dplyr::arrange() 
+========================================================
+
+sort a table, by default ascending use desc() for descending
+```{r}
+arrange(cars, dist, desc(speed))
+```
+
+dplyr::arrange() 
+========================================================
+incremental: true
+
+Example:
+data is cars  
+sort by descending speed then dist 
+```{r}
+arrange(cars, desc(speed), dist)
+```
+
+Data Wrangling 
+========================================================
+
+- Background and basics 
+- Data Wrangling Part 1: Subset
+- **Data Wrangling Part 2: Make new variables**
+- Data Wrangling Part 3: Combine data sets
+- Data Wrangling Part 4: Summarizing
+
+Data Wrangling: Make New Variables Objectives
+========================================================
+
+  - Use the mutate() function to create new variables
+  - Use the case_when() function to create conditional values
+  - Use window functions to create new variables
+  - Use unite and separate functions
+  
+    
+  
+dplyr::mutate()
+========================================================
+  
+Use the flights table
+```{r, echo = FALSE}
+kable(head(flights))%>% scroll_box(width = "100%")
+```
+
+dplyr::mutate()
+========================================================
+create a new distance per thousand miles measure
+```{r, eval = FALSE}
+new_var <- mutate(flights, kdistance = distance/1000)
+```
+```{r, echo=FALSE}
+kable(head(mutate(flights, kdistance = distance/1000)))%>% scroll_box(width = "100%")
+```
+
+dplyr::mutate()
+========================================================
+incremental: true
+
+Example:  
+data is flights  
+create new variable called air_time_hrs converts air_time to hours from minutes
+
+```{r}
+new_variable <- mutate(flights, air_time_hrs = air_time/60  )
+```
+```{r, echo = FALSE}
+kable(head(new_variable)) %>% scroll_box(width = "100%")
+```
+
+dplyr::case_when()
+========================================================
+create a new indicator with mutate but using conditional logic 
+```{r}
+late <- mutate(flights,
+                   dept_ind = case_when(dep_delay > 0 ~ "late",
+                                   dep_delay < 0 ~ "early",
+                                 TRUE ~ "on-time"))
+```
+```{r, echo=FALSE}
+kable(head(late)) %>% scroll_box(width = "100%")
+```
+
+dplyr::case_when()
+========================================================
+incremental: true
+
+Example:  
+data flights  
+create new variable air_time_type from air_time that breaks into long or short based on being longer than 120 minutes  
+reminder:  case_when( condition1 ~ return1, condition2 ~ return2, TRUE ~ default)
+```{r}
+air_time <- mutate(flights, air_time_type = 
+                     case_when(air_time > 120 ~ "Long",
+                               TRUE ~ "Short"))
+```
+
+```{r, echo=FALSE}
+kable(head(air_time)) %>% scroll_box(width = "100%")
+```
+
+mutate() and Window functions
+========================================================
+use window functions, aka analytic functions, with mutate  
+see cheat sheet for many more examples 
+```{r}
+ntile <- mutate(flights, arr_delay_quartile = ntile(arr_delay, 4))
+```
+
+```{r, echo=FALSE}
+kable(head(ntile)) %>% scroll_box(width = "100%")
+```
+
+tidyr::unite() 
+========================================================
+combine columns together with unite  
+ 
+
+```{r}
+unite_ex<- unite(flights, "flight_id", c(carrier, flight), remove = FALSE)
+```
+```{r, echo=FALSE}
+kable(head(unite_ex)) %>% scroll_box(width = "100%")
+```
+
+
+tidyr::separate()
+========================================================
+separate columns 
+```{r}
+separate_ex <- separate(unite_ex, flight_id, c("carrier", "flight"))
+```
+```{r, echo=FALSE}
+kable(head(separate_ex)) %>% scroll_box(width = "100%")
+```
+
+tidyr::separate()
+========================================================
+sep	argument
+Straight from ?separate:  
+If character, is interpreted as a regular expression. The default value is a regular expression that matches any sequence of non-alphanumeric values.  
+If numeric, interpreted as positions to split at. Positive values start at 1 at the far-left of the string; negative value start at -1 at the far-right of the string. The length of sep should be one less than into.
+
+tidyr::unite() 
+========================================================
+incremental: true
+
+Example:  
+data is flights  
+combine origin and dest together into one field called flight_path, separate by -  
+reminder to use c()  
+```{r}
+example <- unite(flights, "flight_path", c(origin, dest), sep = "-")
+```
+```{r, echo=FALSE}
+kable(head(example)) %>% scroll_box(width = "100%")
+```
+
+Data Wrangling 
+========================================================
+
+- Background and basics 
+- Data Wrangling Part 1: Subset
+- Data Wrangling Part 2: Make new variables
+- **Data Wrangling Part 3: Combine data sets**
+- Data Wrangling Part 4: Summarizing
+
+Data Wrangling: Combine Data Sets Objectives
+========================================================
+
+-  Use dplyr join patterns
+-  Understand exceptions and arguments
+
+dplyr::left_join()
+========================================================
+look up values in a metadata store  
+planes  
+airports
+```{r, echo = FALSE}
+kable(head(planes)) 
+kable(head(airlines))
+```
+
+dplyr::left_join()
+========================================================
+```{r}
+plane_flights <- left_join(flights, planes)
+```
+
+```{r, echo=FALSE}
+kable(head(plane_flights)) %>% scroll_box(width = "100%")
+```
+what happened?
+
+dplyr::left_join()
+========================================================
+Need to join by tailnum and not year
+```{r}
+plane_flights <- left_join(flights, planes, by = "tailnum")
+```
+```{r, echo=FALSE}
+kable(head(plane_flights)) %>% scroll_box(width = "100%")
+```
+
+dplyr::left_join()
+========================================================
+specify a suffix to disambiguate overlapping fields
+```{r}
+plane_flights <- left_join(flights, planes, by = "tailnum", suffix = c("_flight","_plane"))
+```
+```{r, echo=FALSE}
+kable(head(plane_flights)) %>% scroll_box(width = "100%")
+```
+
+dplyr::left_join()
+========================================================
+incremental: true
+
+Example:
+data is flights  
+join airlines and flights together
+```{r}
+flights_airlines <- left_join(flights, airlines)
+```
+```{r, echo=FALSE}
+kable(head(flights_airlines)) %>% scroll_box(width = "100%")
+```
+
+Data Wrangling 
+========================================================
+
+- Background and basics 
+- Data Wrangling Part 1: Subset
+- Data Wrangling Part 2: Make new variables
+- Data Wrangling Part 3: Combine data sets
+- **Data Wrangling Part 4: Summarizing**
+
+Data Wrangling: Summarizing Objectives
+========================================================
+
+    - Use the group_by() function with summarize()
+    - Use the spread() and gather() functions
+    
+dplyr::group_by()
+========================================================
+
+aggregates to the distinct values of variables specified  
+typically used with summarize() and then functions like n() or sum()
+
+```{r}
+flights %>% 
+  group_by(carrier) %>% 
+  summarize(count = n())
+```
+
+dplyr::group_by()
+========================================================
+default sum uses na.rm = FALSE
+```{r}
+flights %>% 
+  group_by(carrier) %>% 
+  summarize(count = n(),
+            sum_delay = sum(arr_delay),
+            avg_delay = sum_delay/ count)
+```
+
+dplyr::group_by()
+========================================================
+na.rm = TRUE corrects this
+```{r}
+flights %>% 
+  group_by(carrier) %>% 
+  summarize(count = n(),
+            sum_delay = sum(arr_delay, na.rm = TRUE),
+            avg_delay = sum_delay/ count)
+```
+
+tidyr::spread()
+========================================================
+make unique row values into columns   
+Example: want to summarize month by carrier 
+```{r}
+carrier_month <- flights %>% 
+  group_by(month, carrier) %>% 
+  summarize(count = n()) %>% 
+  spread(carrier, count)
+
+```
+```{r, echo = FALSE}
+kable(head(carrier_month)) %>% scroll_box(width = "100%")
+```
+
+
+tidyr::gather()
+=======================================================
+the converse of spread--usually to make a data set tidy  
+arguments: name of gathered variable, name of metric, columns to gather or exclude  
+```{r}
+carrier_month %>% 
+  gather("Carrier", "count", -month)
+```
+
+Putting it all together
+=======================================================
+
+Can you make this summary table using flights and airlines:  
+```{r, echo = FALSE}
+result <- left_join(flights, airlines) %>% 
+  group_by(name, origin) %>% 
+  summarize(count = n()) %>% 
+  spread(origin, count) %>% 
+  mutate(total = sum(EWR, JFK, LGA, na.rm = TRUE)) %>% 
+  arrange(desc(total))
+
+```
+```{r, echo = FALSE}
+kable(result)
+```
+***
+Hint Need:
+- left_join
+- group_by
+- summarize
+- spread
+- mutate
+- arrange
+
+Answer & Break time
+=======================================================
+```{r}
+result <- left_join(flights, airlines) %>% 
+  group_by(name, origin) %>% 
+  summarize(count = n()) %>% 
+  spread(origin, count) %>% 
+  mutate(total = sum(EWR, JFK, LGA, na.rm = TRUE)) %>% 
+  arrange(desc(total))
+
+```
+
+
+Visualization
+=======================================================
+-  ggplot2
+  -  qplot()
+  -  ggplot()
+  
+ggplot2
+=======================================================
+
+- Every graph can be built with a few basic components:  
+  -  data set  
+  -  geoms--visual shapes that represent the data  
+  -  a coordinate system  
+
+- ggplot2 maps aesthetics that should be passed into certain geom types  
+  -  size, color, shape, etc  
+  
+- Use qplot() to build quick plots with defaults  
+- Use ggplot() to build plots from the ground up  
+
+ggplot2
+=======================================================
+geoms
+  - point
+  - smooth
+  - histogram 
+  - bar
+  - col
+  - area
+  - line
+  - pointrange
+  - contour
+  - tile
+
+ggplot2::qplot()
+=======================================================
+
+qplot(x = x-axis, y = y-axis, color = color, data = data, geom = "geom")
+
+```{r, fig.align='center'}
+library(ggplot2)
+qplot(x = carrier, data = flights)
+
+```
+
+ggplot2::qplot()
+=======================================================
+
+qplot(x = x-axis, y = y-axis, color = color, data = data, geom = "geom")
+```{r, fig.align='center'}
+qplot(x = speed, y = dist, data = cars)
+```
+ggplot2::qplot()
+=======================================================
+
+qplot(x = x-axis, y = y-axis, color = color, data = data, geom = "geom")
+```{r,fig.width=24, fig.height=12, fig.show='hold', fig.align='center'}
+qplot(x = carrier, data = flights, facets = ~ origin )
+```
+
+ggplot2::ggplot()
+=======================================================
+
+Add layers to build chart using + between
+```{r, fig.align='center'}
+ggplot(flights, aes(x = month))+
+  geom_bar()
+```
+
+
+
+ggplot2::ggplot()
+=======================================================
+other options
+  - labels with labs()
+  - zooming with coord_cartesian()
+  - faceting
+
+ggplot2::ggplot()
+=======================================================
+
+
+```{r, fig.align='center'}
+flights %>% 
+  group_by(carrier) %>% 
+  summarize(mean_delay = mean(dep_delay, na.rm = TRUE)) %>% 
+  ggplot(aes(y = mean_delay, x =carrier)) +
+  geom_col()
+```
+
