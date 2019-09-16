@@ -12,15 +12,14 @@ body {
 
 Agenda
 ========================================================
-
+  
+  
 - Introduction 
 - Data Wrangling
 - Break
 - Visualization
 
 Follow along in R by running what is in the code block  
-## Please ask questions as we go!
-***
   
 Please install packages to start: 
 
@@ -34,6 +33,8 @@ install.packages("nycflights13")
 library(tidyverse)
 library(nycflights13)
 ```
+
+## Please ask questions as we go!
 
 Introduction
 =======================================================
@@ -52,7 +53,7 @@ Recap Basics
   - Vector, Matrix, Lists, Data frames
 -  Understand how to use functions and packages
 -  Able to import data into the environment
--  Start a project and why you would want to organize work this way
+-  Able to create and use a project
 
 Logistics
 ========================================================
@@ -381,7 +382,7 @@ source: https://r4ds.had.co.nz/tidy-data.html#fig:tidy-structure
 
 dplyr basics
 ========================================================
-- goal is to make easy to read data wrangling functions that are consistent 
+- consistent and easy-to-use functions to wrangle data
 - Main functions 
   - select
   - filter
@@ -414,7 +415,7 @@ Data Wrangling: Subset Objectives
 
 dplyr::select()  
 ========================================================
-
+select specific columns
 
 ```r
 View(cars)
@@ -516,11 +517,10 @@ select(cars, speed)
 ```
 
 
-dplyr::select() 
+Your Turn
 ========================================================
 incremental: true
 
-Example to try:  
 data is cars  
 variable to select is dist
 
@@ -635,11 +635,10 @@ filter(cars, speed < 8 & dist < 10 )
 2     7    4
 ```
 
-dplyr::filter()  
+Your Turn
 ========================================================
 incremental: true
 
-Example:  
 data is cars  
 where speed is less than 10 and dist is greater than 10  
 
@@ -671,11 +670,10 @@ filter(cars, speed < 8 | dist < 10 )
 4     7   22
 ```
 
-dplyr::filter()  
+Your Turn 
 ========================================================
 incremental: true
 
-Example:  
 data is cars
 where speed is less than 10 **or** dist greater than 10
 
@@ -741,11 +739,11 @@ filter(cars, speed < 10 | dist > 10)
  %>% 
 ========================================================
 
-Pipe: %>%  
-Takes the outputs from first function and passes as inputs to next function  
-String together functions  
-shortcut: ctrl + shift + m  
-and then...
+- Pipe: %>%  
+- Takes the outputs from first function and passes as inputs to next function  
+- String together functions  
+- Shortcut: ctrl + shift + m  
+- and then...
 
 
 %>% 
@@ -768,7 +766,7 @@ select(cars, speed) %>%
 
 note: data argument is reused in subsequent functions when using pipes 
 
-%>% 
+Your Turn
 ========================================================
 incremental: true
 
@@ -851,7 +849,7 @@ arrange(cars, dist, desc(speed))
 50    24  120
 ```
 
-dplyr::arrange() 
+Your Turn 
 ========================================================
 incremental: true
 
@@ -1262,7 +1260,7 @@ new_var <- mutate(flights, kdistance = distance/1000)
 </tbody>
 </table></div>
 
-dplyr::mutate()
+Your Turn
 ========================================================
 incremental: true
 
@@ -1606,7 +1604,7 @@ late <- mutate(flights,
 </tbody>
 </table></div>
 
-dplyr::case_when()
+Your Turn
 ========================================================
 incremental: true
 
@@ -2286,16 +2284,18 @@ separate_ex <- separate(unite_ex, flight_id, c("carrier", "flight"))
 
 tidyr::separate()
 ========================================================
-sep	argument
+sep	argument  
+  
 Straight from ?separate:  
+  
 If character, is interpreted as a regular expression. The default value is a regular expression that matches any sequence of non-alphanumeric values.  
-If numeric, interpreted as positions to split at. Positive values start at 1 at the far-left of the string; negative value start at -1 at the far-right of the string. The length of sep should be one less than into.
+  
+If numeric, interpreted as positions to split at. Positive values start at 1 at the far-left of the string; negative value start at -1 at the far-right of the string.
 
-tidyr::unite() 
+Your Turn
 ========================================================
 incremental: true
-
-Example:  
+ 
 data is flights  
 combine origin and dest together into one field called flight_path, separate by -  
 reminder to use c()  
@@ -2712,97 +2712,13 @@ plane_flights <- left_join(flights, planes)
    <td style="text-align:right;"> NA </td>
    <td style="text-align:left;"> NA </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 544 </td>
-   <td style="text-align:right;"> 545 </td>
-   <td style="text-align:right;"> -1 </td>
-   <td style="text-align:right;"> 1004 </td>
-   <td style="text-align:right;"> 1022 </td>
-   <td style="text-align:right;"> -18 </td>
-   <td style="text-align:left;"> B6 </td>
-   <td style="text-align:right;"> 725 </td>
-   <td style="text-align:left;"> N804JB </td>
-   <td style="text-align:left;"> JFK </td>
-   <td style="text-align:left;"> BQN </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 1576 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 600 </td>
-   <td style="text-align:right;"> -6 </td>
-   <td style="text-align:right;"> 812 </td>
-   <td style="text-align:right;"> 837 </td>
-   <td style="text-align:right;"> -25 </td>
-   <td style="text-align:left;"> DL </td>
-   <td style="text-align:right;"> 461 </td>
-   <td style="text-align:left;"> N668DN </td>
-   <td style="text-align:left;"> LGA </td>
-   <td style="text-align:left;"> ATL </td>
-   <td style="text-align:right;"> 116 </td>
-   <td style="text-align:right;"> 762 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:left;"> 2013-01-01 06:00:00 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 558 </td>
-   <td style="text-align:right;"> -4 </td>
-   <td style="text-align:right;"> 740 </td>
-   <td style="text-align:right;"> 728 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:left;"> UA </td>
-   <td style="text-align:right;"> 1696 </td>
-   <td style="text-align:left;"> N39463 </td>
-   <td style="text-align:left;"> EWR </td>
-   <td style="text-align:left;"> ORD </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 719 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> NA </td>
-  </tr>
 </tbody>
 </table></div>
-what happened?
+
 
 dplyr::left_join()
 ========================================================
-Need to join by tailnum and not year
+Need to join by tailnum alone and not year
 
 ```r
 plane_flights <- left_join(flights, planes, by = "tailnum")
@@ -2924,93 +2840,6 @@ plane_flights <- left_join(flights, planes, by = "tailnum")
    <td style="text-align:left;"> 757-223 </td>
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Turbo-fan </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 544 </td>
-   <td style="text-align:right;"> 545 </td>
-   <td style="text-align:right;"> -1 </td>
-   <td style="text-align:right;"> 1004 </td>
-   <td style="text-align:right;"> 1022 </td>
-   <td style="text-align:right;"> -18 </td>
-   <td style="text-align:left;"> B6 </td>
-   <td style="text-align:right;"> 725 </td>
-   <td style="text-align:left;"> N804JB </td>
-   <td style="text-align:left;"> JFK </td>
-   <td style="text-align:left;"> BQN </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 1576 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:right;"> 2012 </td>
-   <td style="text-align:left;"> Fixed wing multi engine </td>
-   <td style="text-align:left;"> AIRBUS </td>
-   <td style="text-align:left;"> A320-232 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 200 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Turbo-fan </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 600 </td>
-   <td style="text-align:right;"> -6 </td>
-   <td style="text-align:right;"> 812 </td>
-   <td style="text-align:right;"> 837 </td>
-   <td style="text-align:right;"> -25 </td>
-   <td style="text-align:left;"> DL </td>
-   <td style="text-align:right;"> 461 </td>
-   <td style="text-align:left;"> N668DN </td>
-   <td style="text-align:left;"> LGA </td>
-   <td style="text-align:left;"> ATL </td>
-   <td style="text-align:right;"> 116 </td>
-   <td style="text-align:right;"> 762 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:left;"> 2013-01-01 06:00:00 </td>
-   <td style="text-align:right;"> 1991 </td>
-   <td style="text-align:left;"> Fixed wing multi engine </td>
-   <td style="text-align:left;"> BOEING </td>
-   <td style="text-align:left;"> 757-232 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Turbo-fan </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 558 </td>
-   <td style="text-align:right;"> -4 </td>
-   <td style="text-align:right;"> 740 </td>
-   <td style="text-align:right;"> 728 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:left;"> UA </td>
-   <td style="text-align:right;"> 1696 </td>
-   <td style="text-align:left;"> N39463 </td>
-   <td style="text-align:left;"> EWR </td>
-   <td style="text-align:left;"> ORD </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 719 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:right;"> 2012 </td>
-   <td style="text-align:left;"> Fixed wing multi engine </td>
-   <td style="text-align:left;"> BOEING </td>
-   <td style="text-align:left;"> 737-924ER </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 191 </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:left;"> Turbo-fan </td>
   </tr>
@@ -3144,106 +2973,18 @@ plane_flights <- left_join(flights, planes, by = "tailnum", suffix = c("_flight"
    <td style="text-align:right;"> NA </td>
    <td style="text-align:left;"> Turbo-fan </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 544 </td>
-   <td style="text-align:right;"> 545 </td>
-   <td style="text-align:right;"> -1 </td>
-   <td style="text-align:right;"> 1004 </td>
-   <td style="text-align:right;"> 1022 </td>
-   <td style="text-align:right;"> -18 </td>
-   <td style="text-align:left;"> B6 </td>
-   <td style="text-align:right;"> 725 </td>
-   <td style="text-align:left;"> N804JB </td>
-   <td style="text-align:left;"> JFK </td>
-   <td style="text-align:left;"> BQN </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 1576 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:right;"> 2012 </td>
-   <td style="text-align:left;"> Fixed wing multi engine </td>
-   <td style="text-align:left;"> AIRBUS </td>
-   <td style="text-align:left;"> A320-232 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 200 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Turbo-fan </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 600 </td>
-   <td style="text-align:right;"> -6 </td>
-   <td style="text-align:right;"> 812 </td>
-   <td style="text-align:right;"> 837 </td>
-   <td style="text-align:right;"> -25 </td>
-   <td style="text-align:left;"> DL </td>
-   <td style="text-align:right;"> 461 </td>
-   <td style="text-align:left;"> N668DN </td>
-   <td style="text-align:left;"> LGA </td>
-   <td style="text-align:left;"> ATL </td>
-   <td style="text-align:right;"> 116 </td>
-   <td style="text-align:right;"> 762 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:left;"> 2013-01-01 06:00:00 </td>
-   <td style="text-align:right;"> 1991 </td>
-   <td style="text-align:left;"> Fixed wing multi engine </td>
-   <td style="text-align:left;"> BOEING </td>
-   <td style="text-align:left;"> 757-232 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Turbo-fan </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 558 </td>
-   <td style="text-align:right;"> -4 </td>
-   <td style="text-align:right;"> 740 </td>
-   <td style="text-align:right;"> 728 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:left;"> UA </td>
-   <td style="text-align:right;"> 1696 </td>
-   <td style="text-align:left;"> N39463 </td>
-   <td style="text-align:left;"> EWR </td>
-   <td style="text-align:left;"> ORD </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 719 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:right;"> 2012 </td>
-   <td style="text-align:left;"> Fixed wing multi engine </td>
-   <td style="text-align:left;"> BOEING </td>
-   <td style="text-align:left;"> 737-924ER </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 191 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Turbo-fan </td>
-  </tr>
 </tbody>
 </table></div>
 
-dplyr::left_join()
+Your Turn
 ========================================================
 incremental: true
 
-Example:
 data is flights  
 join airlines and flights together
 
 ```r
-flights_airlines <- left_join(flights, airlines)
+flights_airlines <- left_join(flights, airlines, by = "carrier")
 ```
 <div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; "><table>
  <thead>
@@ -3337,72 +3078,6 @@ flights_airlines <- left_join(flights, airlines)
    <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
    <td style="text-align:left;"> American Airlines Inc. </td>
   </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 544 </td>
-   <td style="text-align:right;"> 545 </td>
-   <td style="text-align:right;"> -1 </td>
-   <td style="text-align:right;"> 1004 </td>
-   <td style="text-align:right;"> 1022 </td>
-   <td style="text-align:right;"> -18 </td>
-   <td style="text-align:left;"> B6 </td>
-   <td style="text-align:right;"> 725 </td>
-   <td style="text-align:left;"> N804JB </td>
-   <td style="text-align:left;"> JFK </td>
-   <td style="text-align:left;"> BQN </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 1576 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:left;"> JetBlue Airways </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 600 </td>
-   <td style="text-align:right;"> -6 </td>
-   <td style="text-align:right;"> 812 </td>
-   <td style="text-align:right;"> 837 </td>
-   <td style="text-align:right;"> -25 </td>
-   <td style="text-align:left;"> DL </td>
-   <td style="text-align:right;"> 461 </td>
-   <td style="text-align:left;"> N668DN </td>
-   <td style="text-align:left;"> LGA </td>
-   <td style="text-align:left;"> ATL </td>
-   <td style="text-align:right;"> 116 </td>
-   <td style="text-align:right;"> 762 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:left;"> 2013-01-01 06:00:00 </td>
-   <td style="text-align:left;"> Delta Air Lines Inc. </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 554 </td>
-   <td style="text-align:right;"> 558 </td>
-   <td style="text-align:right;"> -4 </td>
-   <td style="text-align:right;"> 740 </td>
-   <td style="text-align:right;"> 728 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:left;"> UA </td>
-   <td style="text-align:right;"> 1696 </td>
-   <td style="text-align:left;"> N39463 </td>
-   <td style="text-align:left;"> EWR </td>
-   <td style="text-align:left;"> ORD </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 719 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:left;"> 2013-01-01 05:00:00 </td>
-   <td style="text-align:left;"> United Air Lines Inc. </td>
-  </tr>
 </tbody>
 </table></div>
 
@@ -3417,9 +3092,8 @@ Data Wrangling
 
 Data Wrangling: Summarizing Objectives
 ========================================================
-
-    - Use the group_by() function with summarize()
-    - Use the spread() and gather() functions
+- Use the group_by() function with summarize()  
+- Use the spread() and gather() functions  
     
 dplyr::group_by()
 ========================================================
@@ -3522,6 +3196,40 @@ flights %>%
 14 VX       5162      9027     1.75 
 15 WN      12275    116214     9.47 
 16 YV        601      8463    14.1  
+```
+dplyr::group_by()
+========================================================
+how to fix count to only count valid values?
+
+```r
+flights %>% 
+  group_by(carrier) %>% 
+  summarize(count = n(),
+            delay_count = sum(!is.na(arr_delay)),
+            sum_delay = sum(arr_delay, na.rm = TRUE),
+            avg_delay = sum_delay/ delay_count)
+```
+
+```
+# A tibble: 16 x 5
+   carrier count delay_count sum_delay avg_delay
+   <chr>   <int>       <int>     <dbl>     <dbl>
+ 1 9E      18460       17294    127624     7.38 
+ 2 AA      32729       31947     11638     0.364
+ 3 AS        714         709     -7041    -9.93 
+ 4 B6      54635       54049    511194     9.46 
+ 5 DL      48110       47658     78366     1.64 
+ 6 EV      54173       51108    807324    15.8  
+ 7 F9        685         681     14928    21.9  
+ 8 FL       3260        3175     63868    20.1  
+ 9 HA        342         342     -2365    -6.92 
+10 MQ      26397       25037    269767    10.8  
+11 OO         32          29       346    11.9  
+12 UA      58665       57782    205589     3.56 
+13 US      20536       19831     42232     2.13 
+14 VX       5162        5116      9027     1.76 
+15 WN      12275       12044    116214     9.65 
+16 YV        601         544      8463    15.6  
 ```
 
 tidyr::spread()
@@ -3704,7 +3412,7 @@ carrier_month %>%
 # ... with 182 more rows
 ```
 
-Putting it all together
+Your Turn
 =======================================================
 
 Can you make this summary table using flights and airlines:  
@@ -3866,7 +3574,9 @@ Visualization
 - Scales
 - Coordinate system
 - Facets
-- Labels and Annotation
+- Labels and Annotation  
+
+![graph](graph.gif) 
 
 Visualization
 =======================================================
@@ -3947,7 +3657,7 @@ library(ggplot2)
 ggplot(data= cars, mapping = aes(speed,dist))
 ```
 
-<img src="Presentation-figure/unnamed-chunk-58-1.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
 
 geom
 =======================================================
@@ -3965,22 +3675,8 @@ geom
 scatter plot
 
 ```r
-library(ggplot2)
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point()
-```
-
-<img src="Presentation-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
-
-geom
-=======================================================
-scatter plot
-
-```r
-library(ggplot2)
-ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
-  geom_point(mapping = aes(color = class),
-             position = "jitter")
 ```
 
 <img src="Presentation-figure/unnamed-chunk-60-1.png" title="plot of chunk unnamed-chunk-60" alt="plot of chunk unnamed-chunk-60" style="display: block; margin: auto;" />
@@ -3990,25 +3686,36 @@ geom
 scatter plot
 
 ```r
-ggplot(mpg, aes(cty, hwy)) +
-  geom_point(aes(color = class),
-             position = "jitter")
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point()
 ```
 
 <img src="Presentation-figure/unnamed-chunk-61-1.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
 
+Check-in
+=======================================================
+incremental: true
+what happens if aesthetics are moved down into geom?
+
+```r
+ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy, color = class))
+```
+
+<img src="Presentation-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
+
 geom
 =======================================================
+layers  
 scatter plot + smooth
 
 ```r
 ggplot(mpg, aes(cty, hwy)) +
-  geom_point(aes(color = class),
-             position = "jitter") +
+  geom_point(aes(color = class)) +
   geom_smooth(method = "lm") #default method is "loess"
 ```
 
-<img src="Presentation-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" style="display: block; margin: auto;" />
 
 geom
 =======================================================
@@ -4019,7 +3726,7 @@ ggplot(mpg, aes(hwy))+
   geom_histogram(binwidth = 5)
 ```
 
-<img src="Presentation-figure/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-64-1.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
 
 geom
 =======================================================
@@ -4030,7 +3737,13 @@ ggplot(mpg, aes(class))+
   geom_bar()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-64-1.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-65-1.png" title="plot of chunk unnamed-chunk-65" alt="plot of chunk unnamed-chunk-65" style="display: block; margin: auto;" />
+
+Check-in
+=======================================================
+incremental: true
+When to use a bar plot vs histogram?  
+Bar gets discrete & histogram is continuous
 
 Visualization
 =======================================================
@@ -4056,11 +3769,11 @@ bar plot with stat = "identity"
 
 ```r
 count(mpg, class) %>% 
-  ggplot(aes(x = class, y = n)) +
+  ggplot(aes(class, n)) +
   geom_bar(stat = "identity")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-65-1.png" title="plot of chunk unnamed-chunk-65" alt="plot of chunk unnamed-chunk-65" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-66-1.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
 Stat Transformations
 =======================================================
 using stat_summary 
@@ -4071,7 +3784,15 @@ ggplot(mtcars, aes(cyl, mpg)) +
   stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-66-1.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
+
+Check-in
+=======================================================
+incremental: true
+  
+Can you use the same data source to plot multiple stats in one graph?  
+  
+Yes! You can calculate various measures and add them as different layers
 
 Visualization
 =======================================================
@@ -4101,7 +3822,7 @@ ggplot(mpg,aes(cty, hwy)) +
   geom_point()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-68-1.png" title="plot of chunk unnamed-chunk-68" alt="plot of chunk unnamed-chunk-68" style="display: block; margin: auto;" />
 ***
 
 ```r
@@ -4109,7 +3830,7 @@ ggplot(mpg,aes(cty, hwy)) +
   geom_point(position = "jitter")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-68-1.png" title="plot of chunk unnamed-chunk-68" alt="plot of chunk unnamed-chunk-68" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-69-1.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
 
 Position Adjustments
 ========================================================
@@ -4120,7 +3841,7 @@ ggplot(mpg, aes(x = class, fill = drv)) +
   geom_bar()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-69-1.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-70-1.png" title="plot of chunk unnamed-chunk-70" alt="plot of chunk unnamed-chunk-70" style="display: block; margin: auto;" />
 ***
 
 ```r
@@ -4128,8 +3849,15 @@ ggplot(mpg, aes(x = class, fill = drv)) +
   geom_bar(position = "dodge")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-70-1.png" title="plot of chunk unnamed-chunk-70" alt="plot of chunk unnamed-chunk-70" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-71-1.png" title="plot of chunk unnamed-chunk-71" alt="plot of chunk unnamed-chunk-71" style="display: block; margin: auto;" />
 
+Check-in
+=======================================================
+incremental: true
+  
+Where does the position argument go?  
+  
+As a first level argument of the geom  
 
 Visualization
 =======================================================
@@ -4145,9 +3873,9 @@ Visualization
 
 Scales
 ======================================================
-
+  
 - Scale functions customize the scales:     
-  - functions are named: scale + aesthetic parameter + how to scale 
+  - functions are named: scale + aesthetic parameter + scale type
 - Defaults are based on data type for aesthetic mappings  
 
 ```r
@@ -4158,7 +3886,26 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   scale_color_discrete()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-71-1.png" title="plot of chunk unnamed-chunk-71" alt="plot of chunk unnamed-chunk-71" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-72-1.png" title="plot of chunk unnamed-chunk-72" alt="plot of chunk unnamed-chunk-72" style="display: block; margin: auto;" />
+
+Scales
+=======================================================
+Break hwy scale into increments of 2
+
+```r
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  scale_y_continuous(breaks = seq(10, 46, by = 2)) 
+```
+
+<img src="Presentation-figure/unnamed-chunk-73-1.png" title="plot of chunk unnamed-chunk-73" alt="plot of chunk unnamed-chunk-73" style="display: block; margin: auto;" />
+
+Check-in
+=======================================================
+incremental: true
+If I wanted to see the default parameters for a date x scale what would I do?
+  
+run ?scale_x_date in the console
 
 Visualization
 =======================================================
@@ -4188,7 +3935,16 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   coord_cartesian(xlim = c(20, 30), ylim = c(20,30))
 ```
 
-<img src="Presentation-figure/unnamed-chunk-72-1.png" title="plot of chunk unnamed-chunk-72" alt="plot of chunk unnamed-chunk-72" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-74-1.png" title="plot of chunk unnamed-chunk-74" alt="plot of chunk unnamed-chunk-74" style="display: block; margin: auto;" />
+note: if you use xlim() and ylim() functions instead it will *delete* those points which alter stats and models in the graph
+
+Check-in
+=======================================================
+incremental: true
+  
+What coordinate option would you use if you had long names in the x axis?
+  
+coor_flip()
 
 Visualization
 =======================================================
@@ -4204,10 +3960,12 @@ Visualization
 
 Facets
 =======================================================
-- Allows for subplots to be built based on data
+- Allows for subplots to be built based on discrete variables  
 - Two functions
   - facet_grid
   - facet_wrap
+- By default uses the same scales across the facet
+  - Argument to change this is scales = "free"
 
 Facets
 =======================================================
@@ -4220,20 +3978,28 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   facet_grid(rows = vars(year), cols = vars(cyl))
 ```
 
-<img src="Presentation-figure/unnamed-chunk-73-1.png" title="plot of chunk unnamed-chunk-73" alt="plot of chunk unnamed-chunk-73" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-75-1.png" title="plot of chunk unnamed-chunk-75" alt="plot of chunk unnamed-chunk-75" style="display: block; margin: auto;" />
 
 Facets
 =======================================================
-facet_wrap takes 1 or more class variables and wraps the subplots into a rectangle 
+facet_wrap takes discrete variables and wraps the subplots into a rectangle 
 
 
 ```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   geom_point() +
-  facet_wrap(facets = vars(cyl, drv))
+  facet_wrap(facets = vars(cyl, drv), scales = "free_y")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-74-1.png" title="plot of chunk unnamed-chunk-74" alt="plot of chunk unnamed-chunk-74" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-76-1.png" title="plot of chunk unnamed-chunk-76" alt="plot of chunk unnamed-chunk-76" style="display: block; margin: auto;" />
+
+Check-in
+=======================================================
+incremental: true
+  
+What kind of variable can you facet graphs for?
+  
+Discrete
 
 Visualization
 =======================================================
@@ -4247,10 +4013,75 @@ Visualization
 - Facets
 - **Labels and Annotation**
 
+Labels
+=======================================================
+Labels are added with the labs function:
+
+
+```r
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
+  geom_point() +
+  labs(title = "Fuel Efficiency by Engine Power",
+       subtitle = "Fuel economy data from 1999 and 2008 for 38 popular models of cars",
+       x = "Engine power (litres displacement)",
+       y = "Fuel Efficiency (miles per gallon)",
+       color = "Car Type")
+```
+
+<img src="Presentation-figure/unnamed-chunk-77-1.png" title="plot of chunk unnamed-chunk-77" alt="plot of chunk unnamed-chunk-77" style="display: block; margin: auto;" />
+
+Annotations
+=======================================================
+add a geom layer added with geom_label or geom_text  
+add an annotation in the coordinate system
+
+
+```r
+best_in_class <- mpg %>%
+  group_by(class) %>%
+  filter(row_number(desc(hwy)) == 1)
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(position = "jitter") +
+  geom_text(data = best_in_class, aes(label = model), hjust = 0, nudge_x = 0.05 )+
+  annotate("text", label = "random annotation", x = 5, y = 35, size = 8, color = "red")
+```
+
+<img src="Presentation-figure/unnamed-chunk-78-1.png" title="plot of chunk unnamed-chunk-78" alt="plot of chunk unnamed-chunk-78" style="display: block; margin: auto;" />
+
+Check-in
+=======================================================
+incremental: true
+  
+What argument to specify titles for charts or axis?
+  
+labs()
+
+Saving a graph
+======================================================
+use ggsave() to save a chart  
+embed in a pdf/html report 
+
+
+```r
+ggsave("R Intermediate/sample.png", width = 5, height = 5)
+```
+
+
+Homework
+======================================================
+  
+    
+Bonus!!  
+
+Make a chart relevant to your data send to me and I will post on the confluence page!
+
+
+
 Where to learn more
 =======================================================
 -  Presentation can be found in workshop page (download icon after clicking):  
-https://confluence.ag.com/display/BI/Introduction%3A+R+basics  
+https://confluence.ag.com/display/BI/Intermediate%3A+Analyzing+in+R
 -  Code from workshops can be found at:
 https://github.com/dvisger/r-training  
 -  Sign up for Intermediate & Advanced Workshops:  
@@ -4265,7 +4096,7 @@ https://www.meetup.com/Cleveland-UseR-Group/
 References
 =======================================================
 
-http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html
-https://uc-r.github.io/ggplot_intro
-https://r4ds.had.co.nz/index.html
+http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html  
+https://uc-r.github.io/ggplot_intro  
+https://r4ds.had.co.nz/index.html  
 
