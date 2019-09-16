@@ -21,7 +21,7 @@ Agenda
 
 Follow along in R by running what is in the code block  
   
-Please install packages to start: 
+Please install and load packages to start: 
 
 ```r
 install.packages("tidyverse")
@@ -40,13 +40,12 @@ Introduction
 =======================================================
 -  Recap basics
 -  Logistics
--  Workflow
 -  Import
--  Explore
+-  Explore Data
 
-Recap Basics
+Basics
 =======================================================
--  Understand what R is and what is used for
+-  Understand what R is and what its used for
 -  Able to navigate around and use RStudio
 -  Understand the main data types and ways data are organized
   - Double, Integer, Character, Logical
@@ -158,14 +157,6 @@ package <- sessioninfo::package_info(pkgs = c("dplyr", "tidyr", "nycflights13", 
 </tbody>
 </table></div>
 
-Workflow
-========================================================
-- Import 
-- **Explore data**
-- **Wrangle**
-- **Visualize**
-- Model
-- Communicate
 
 Import
 ========================================================
@@ -339,7 +330,7 @@ View(flights)
 </table></div>
 
 
-Explore
+Explore Data
 ========================================================
 - Simply click on df in Environment to preview, same as View(df)
 - names(df) for column names
@@ -353,7 +344,7 @@ Explore
 Data Wrangling 
 ========================================================
 
-- Background and basics 
+- Introduction to tidyverse 
 - Data Wrangling Part 1: Subset
 - Data Wrangling Part 2: Make new variables
 - Data Wrangling Part 3: Combine data sets
@@ -362,7 +353,7 @@ Data Wrangling
 Data Wrangling 
 ========================================================
 
-- **Background and basics** 
+- **Introduction to tidyverse ** 
 - Data Wrangling Part 1: Subset
 - Data Wrangling Part 2: Make new variables
 - Data Wrangling Part 3: Combine data sets
@@ -399,7 +390,7 @@ dplyr basics
 Data Wrangling 
 ========================================================
 
-- Background and basics 
+- Introduction to tidyverse  
 - **Data Wrangling Part 1: Subset**
 - Data Wrangling Part 2: Make new variables
 - Data Wrangling Part 3: Combine data sets
@@ -853,7 +844,6 @@ Your Turn
 ========================================================
 incremental: true
 
-Example:
 data is cars  
 sort by descending speed then dist 
 
@@ -918,7 +908,7 @@ arrange(cars, desc(speed), dist)
 Data Wrangling 
 ========================================================
 
-- Background and basics 
+- Introduction to tidyverse  
 - Data Wrangling Part 1: Subset
 - **Data Wrangling Part 2: Make new variables**
 - Data Wrangling Part 3: Combine data sets
@@ -2453,7 +2443,7 @@ example <- unite(flights, "flight_path", c(origin, dest), sep = "-")
 Data Wrangling 
 ========================================================
 
-- Background and basics 
+- Introduction to tidyverse  
 - Data Wrangling Part 1: Subset
 - Data Wrangling Part 2: Make new variables
 - **Data Wrangling Part 3: Combine data sets**
@@ -3084,7 +3074,7 @@ flights_airlines <- left_join(flights, airlines, by = "carrier")
 Data Wrangling 
 ========================================================
 
-- Background and basics 
+- Introduction to tidyverse  
 - Data Wrangling Part 1: Subset
 - Data Wrangling Part 2: Make new variables
 - Data Wrangling Part 3: Combine data sets
