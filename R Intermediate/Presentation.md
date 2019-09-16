@@ -3911,17 +3911,18 @@ https://uc-r.github.io/ggplot_intro
 ggplot2:ggplot()
 =======================================================
 
-template:  
+generic template:  
 
 ```r
 ggplot(data, general aesthetic mapping) +  
-  geom_layer_1...n(unique aesthetic mapping,  
+  geometric layers(unique aesthetic mapping,  
                   stat properties,  
                   position properties) +  
-  scale properties +  
-  coor properties +  
-  facet properties +  
-  label properties
+  stat calculations() +
+  scale properties() +  
+  coordinate properties() +  
+  facet properties() +  
+  label properties()
 ```
 
 
@@ -4140,6 +4141,7 @@ Visualization
 - **Scales**
 - Coordinate system
 - Facets
+- Labels and Annotation
 
 Scales
 ======================================================
@@ -4158,72 +4160,92 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
 
 <img src="Presentation-figure/unnamed-chunk-71-1.png" title="plot of chunk unnamed-chunk-71" alt="plot of chunk unnamed-chunk-71" style="display: block; margin: auto;" />
 
-gplot2
+Visualization
 =======================================================
-left: 20%
-geom
-  - **point**
-  - **smooth**
-  - histogram 
-  - bar
-  - line
 
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- **Coordinate system**
+- Facets
+- Labels and Annotation
 
-***
+Coordinate system
+=======================================================
+- Layers added to change the coordinates  
+- Most common used functions are:  
+  -coord_cartesian(xlim = , ylim =)  
+  -coord_flip()
+
+Coordinate system
+=======================================================
 
 ```r
-ggplot(cars, aes(speed, dist))+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   geom_point() +
-  geom_smooth(method = "lm")
+  coord_cartesian(xlim = c(20, 30), ylim = c(20,30))
 ```
 
 <img src="Presentation-figure/unnamed-chunk-72-1.png" title="plot of chunk unnamed-chunk-72" alt="plot of chunk unnamed-chunk-72" style="display: block; margin: auto;" />
 
-ggplot2
+Visualization
 =======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - **histogram** 
-  - bar
-  - line
 
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- **Facets**
+- Labels and Annotation
 
-***
+Facets
+=======================================================
+- Allows for subplots to be built based on data
+- Two functions
+  - facet_grid
+  - facet_wrap
+
+Facets
+=======================================================
+facet_grid makes subplots based on categorical variables where you specify the row and column variables
+
 
 ```r
-ggplot(mtcars, aes(mpg))+
-  geom_histogram(binwidth = 5)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  facet_grid(rows = vars(year), cols = vars(cyl))
 ```
 
 <img src="Presentation-figure/unnamed-chunk-73-1.png" title="plot of chunk unnamed-chunk-73" alt="plot of chunk unnamed-chunk-73" style="display: block; margin: auto;" />
 
-
-ggplot2
+Facets
 =======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram
-  - **bar**
-  - line
+facet_wrap takes 1 or more class variables and wraps the subplots into a rectangle 
 
-
-***
 
 ```r
-ggplot(flights, aes(carrier))+
-  geom_bar()
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  facet_wrap(facets = vars(cyl, drv))
 ```
 
 <img src="Presentation-figure/unnamed-chunk-74-1.png" title="plot of chunk unnamed-chunk-74" alt="plot of chunk unnamed-chunk-74" style="display: block; margin: auto;" />
 
+Visualization
+=======================================================
 
-
-
-
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- **Labels and Annotation**
 
 Where to learn more
 =======================================================

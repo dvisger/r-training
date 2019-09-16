@@ -702,16 +702,17 @@ https://uc-r.github.io/ggplot_intro
 ggplot2:ggplot()
 =======================================================
 
-template:  
+generic template:  
 ```{r, eval = FALSE}
 ggplot(data, general aesthetic mapping) +  
-  geom_layer_1...n(unique aesthetic mapping,  
+  geometric layers(unique aesthetic mapping,  
                   stat properties,  
                   position properties) +  
-  scale properties +  
-  coor properties +  
-  facet properties +  
-  label properties
+  stat calculations() +
+  scale properties() +  
+  coordinate properties() +  
+  facet properties() +  
+  label properties()
   
 ```
 
@@ -892,6 +893,7 @@ Visualization
 - **Scales**
 - Coordinate system
 - Facets
+- Labels and Annotation
 
 Scales
 ======================================================
@@ -909,63 +911,89 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   
 ```
 
-gplot2
+Visualization
 =======================================================
-left: 20%
-geom
-  - **point**
-  - **smooth**
-  - histogram 
-  - bar
-  - line
 
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- **Coordinate system**
+- Facets
+- Labels and Annotation
 
-***
-```{r, fig.align = 'center'}
-ggplot(cars, aes(speed, dist))+
+Coordinate system
+=======================================================
+- Layers added to change the coordinates  
+- Most common used functions are:  
+  -coord_cartesian(xlim = , ylim =)  
+  -coord_flip()
+
+Coordinate system
+=======================================================
+```{r, fig.align = 'center', fig.width= 18}
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   geom_point() +
-  geom_smooth(method = "lm")
+  coord_cartesian(xlim = c(20, 30), ylim = c(20,30))
+  
 ```
 
-ggplot2
+Visualization
 =======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - **histogram** 
-  - bar
-  - line
 
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- **Facets**
+- Labels and Annotation
 
-***
-```{r, fig.align = 'center'}
-ggplot(mtcars, aes(mpg))+
-  geom_histogram(binwidth = 5)
+Facets
+=======================================================
+- Allows for subplots to be built based on data
+- Two functions
+  - facet_grid
+  - facet_wrap
+
+Facets
+=======================================================
+facet_grid makes subplots based on categorical variables where you specify the row and column variables
+
+```{r, fig.align = 'center', fig.width= 18}
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  facet_grid(rows = vars(year), cols = vars(cyl))
+  
 ```
 
-
-ggplot2
+Facets
 =======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram
-  - **bar**
-  - line
+facet_wrap takes 1 or more class variables and wraps the subplots into a rectangle 
 
+```{r, fig.align = 'center', fig.width= 18}
 
-***
-```{r, fig.align = 'center'}
-ggplot(flights, aes(carrier))+
-  geom_bar()
-```  
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  facet_wrap(facets = vars(cyl, drv))
+  
+```
 
+Visualization
+=======================================================
 
-
-
-
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- **Labels and Annotation**
 
 Where to learn more
 =======================================================
