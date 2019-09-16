@@ -71,7 +71,7 @@ sessioninfo::platform_info()
  collate  English_United States.1252  
  ctype    English_United States.1252  
  tz       America/New_York            
- date     2019-09-14                  
+ date     2019-09-16                  
 ```
 
 Logistics
@@ -366,9 +366,10 @@ Data Wrangling
 - Data Wrangling Part 2: Make new variables
 - Data Wrangling Part 3: Combine data sets
 - Data Wrangling Part 4: Summarizing
+
 tidyverse
 ========================================================
--  functions in tidyverse are optimized for R's vectorized operations  
+-  tidyverse is a set of packages developed to optimize R's vectorized operations  
 -  requires "tidy data"
   -  each variable is a column
   -  each observations is a row
@@ -3855,107 +3856,222 @@ result <- left_join(flights, airlines) %>%
 ```
 
 
-Visualization
+ggplot
 =======================================================
--  ggplot2
-  -  qplot()
-  -  ggplot()
-  
+
+- Overview
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+
+Graphs with ggplot2
+=======================================================
+
+Arguments of a graph:  
+-  data = the data being plotted  
+-  geom = the geometric objects (circles, lines, etc.) that appear on the plot   
+-  aes = a set of mappings from variables in the data to the aesthetics (appearance) of the geometric objects    
+-  stat = a statistical transformation used to calculate the data values used in the plot  
+-  position = a position adjustment for locating each geometric object on the plot  
+-  scale_ = a scale (e.g., range of values) for each aesthetic mapping used     
+-  coor_ = a coordinate system used to organize the geometric objects  
+-  facet_ = the facets or groups of data shown in different plots  
+
+https://uc-r.github.io/ggplot_intro
+
+
 ggplot2
 =======================================================
-
-- Every graph can be built with a few basic components:  
-  -  data set  
-  -  geoms--visual shapes that represent the data  
-  -  a coordinate system  
-
-- ggplot2 maps aesthetics that should be passed into certain geom types  
-  -  size, color, shape, etc  
-  
-- Use qplot() to build quick plots with defaults  
-- Use ggplot() to build plots from the ground up  
-
-ggplot2
-=======================================================
-geoms
+left: 20%
+geom
   - point
   - smooth
   - histogram 
   - bar
-  - col
-  - area
   - line
-  - pointrange
-  - contour
-  - tile
 
-ggplot2::qplot()
-=======================================================
-
-qplot(x = x-axis, y = y-axis, color = color, data = data, geom = "geom")
-
+***
 
 ```r
 library(ggplot2)
-qplot(x = carrier, data = flights)
+ggplot(data= cars, mapping = aes(speed,dist))
 ```
 
 <img src="Presentation-figure/unnamed-chunk-57-1.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" />
-
-ggplot2::qplot()
+ggplot2
 =======================================================
+left: 20%
+geom
+  - **point**
+  - smooth
+  - histogram 
+  - bar
+  - line
 
-qplot(x = x-axis, y = y-axis, color = color, data = data, geom = "geom")
+
+***
 
 ```r
-qplot(x = speed, y = dist, data = cars)
+library(ggplot2)
+ggplot(cars, mapping = aes(speed,dist)) +
+  geom_point()
 ```
 
 <img src="Presentation-figure/unnamed-chunk-58-1.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
-ggplot2::qplot()
-=======================================================
 
-qplot(x = x-axis, y = y-axis, color = color, data = data, geom = "geom")
+
+ggplot2
+=======================================================
+left: 20%
+geom
+  - **point**
+  - **smooth**
+  - histogram 
+  - bar
+  - line
+
+
+***
 
 ```r
-qplot(x = carrier, data = flights, facets = ~ origin )
+ggplot(cars, aes(speed, dist))+
+  geom_point() +
+  geom_smooth(method = "lm")
 ```
 
 <img src="Presentation-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
 
-ggplot2::ggplot()
+ggplot2
 =======================================================
+left: 20%
+geom
+  - point
+  - smooth
+  - **histogram** 
+  - bar
+  - line
 
-Add layers to build chart using + between
+
+***
 
 ```r
-ggplot(flights, aes(x = month))+
-  geom_bar()
+ggplot(mtcars, aes(mpg))+
+  geom_histogram(binwidth = 5)
 ```
 
 <img src="Presentation-figure/unnamed-chunk-60-1.png" title="plot of chunk unnamed-chunk-60" alt="plot of chunk unnamed-chunk-60" style="display: block; margin: auto;" />
 
 
-
-ggplot2::ggplot()
+ggplot2
 =======================================================
-other options
-  - labels with labs()
-  - zooming with coord_cartesian()
-  - faceting
+left: 20%
+geom
+  - point
+  - smooth
+  - histogram
+  - **bar**
+  - line
 
-ggplot2::ggplot()
-=======================================================
 
-
+***
 
 ```r
-flights %>% 
-  group_by(carrier) %>% 
-  summarize(mean_delay = mean(dep_delay, na.rm = TRUE)) %>% 
-  ggplot(aes(y = mean_delay, x =carrier)) +
-  geom_col()
+ggplot(flights, aes(carrier))+
+  geom_bar()
 ```
 
 <img src="Presentation-figure/unnamed-chunk-61-1.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
+
+
+ggplot2
+=======================================================
+left: 20%
+geom
+  - point
+  - smooth
+  - histogram
+  - **bar**
+  - line
+
+
+***
+
+```r
+ggplot(result, aes(name, total))+
+  geom_bar(stat= "identity")
+```
+
+<img src="Presentation-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
+
+ggplot2
+=======================================================
+left: 20%
+geom
+  - point
+  - smooth
+  - histogram 
+  - **bar**
+  - line
+
+
+***
+
+```r
+ggplot(result,  aes(name, total))+
+  geom_bar(stat = "identity") +
+  coord_flip()
+```
+
+<img src="Presentation-figure/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" style="display: block; margin: auto;" />
+ggplot2
+=======================================================
+left: 20%
+geom
+  - point
+  - smooth
+  - histogram 
+  - bar
+  - **line**
+
+
+***
+
+```r
+group_by(flights, carrier, month) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(month, count, group = carrier))+
+  geom_line()
+```
+
+<img src="Presentation-figure/unnamed-chunk-64-1.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
+
+
+
+
+Where to learn more
+=======================================================
+-  Presentation can be found in workshop page (download icon after clicking):  
+https://confluence.ag.com/display/BI/Introduction%3A+R+basics  
+-  Code from workshops can be found at:
+https://github.com/dvisger/r-training  
+-  Sign up for Intermediate & Advanced Workshops:  
+https://confluence.ag.com/display/BI/Workshops  
+-  Compiled Online Resources:  
+https://confluence.ag.com/display/BI/Online+resources
+-  Go to a local R meetup:
+https://www.meetup.com/Cleveland-UseR-Group/
+-  Reach out to me or send message in AG’s #help-r slack channel
+
+
+References
+=======================================================
+
+http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html
+https://uc-r.github.io/ggplot_intro
+https://r4ds.had.co.nz/index.html
 
