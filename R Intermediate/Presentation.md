@@ -3856,10 +3856,10 @@ result <- left_join(flights, airlines) %>%
 ```
 
 
-ggplot
+Visualization
 =======================================================
 
-- Overview
+- Overview of ggplot
 - Geom
 - Stat transformations
 - Position Adjustments
@@ -3868,11 +3868,35 @@ ggplot
 - Facets
 - Labels and Annotation
 
-
-Graphs with ggplot2
+Visualization
 =======================================================
 
-Arguments of a graph:  
+- **Overview of ggplot**
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+ggplot2
+=======================================================
+
+- popular and robust package for building graphs
+    - gg = grammar of graphics  
+- main function is ggplot() with many functions used in support  
+- builds graphic elements layer by layer
+- a plus sign (+) is used between elements
+- can be overwhelming
+  - keep in mind the framework 
+  - use the cheatsheet
+
+
+ggplot2:ggplot()
+=======================================================
+
+Layers and main arguments needed:  
 -  data = the data being plotted  
 -  geom = the geometric objects (circles, lines, etc.) that appear on the plot   
 -  aes = a set of mappings from variables in the data to the aesthetics (appearance) of the geometric objects    
@@ -3884,48 +3908,257 @@ Arguments of a graph:
 
 https://uc-r.github.io/ggplot_intro
 
-
-ggplot2
+ggplot2:ggplot()
 =======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram 
-  - bar
-  - line
 
-***
+template:  
+
+```r
+ggplot(data, general aesthetic mapping) +  
+  geom_layer_1...n(unique aesthetic mapping,  
+                  stat properties,  
+                  position properties) +  
+  scale properties +  
+  coor properties +  
+  facet properties +  
+  label properties
+```
+
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- **Geom**
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+geom
+=======================================================
+no geom:  
 
 ```r
 library(ggplot2)
 ggplot(data= cars, mapping = aes(speed,dist))
 ```
 
-<img src="Presentation-figure/unnamed-chunk-57-1.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" />
-ggplot2
-=======================================================
-left: 20%
+<img src="Presentation-figure/unnamed-chunk-58-1.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
+
 geom
-  - **point**
-  - smooth
-  - histogram 
-  - bar
-  - line
+=======================================================
+- each geom has its required or optional aesthetic mappings:  
+  - geom_area: x, y, alpha, color, fill, linetype, size
+- geoms can inherit the data and some mapping arguments from initial ggplot function  
+- each geom has set default stat and position 
+  - geom_point: 
+      stat = "count"  
+      position = "identity"  
+- use help to see defaults: ?geom_name
 
-
-***
+geom
+=======================================================
+scatter plot
 
 ```r
 library(ggplot2)
-ggplot(cars, mapping = aes(speed,dist)) +
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-58-1.png" title="plot of chunk unnamed-chunk-58" alt="plot of chunk unnamed-chunk-58" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
+
+geom
+=======================================================
+scatter plot
+
+```r
+library(ggplot2)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point(mapping = aes(color = class),
+             position = "jitter")
+```
+
+<img src="Presentation-figure/unnamed-chunk-60-1.png" title="plot of chunk unnamed-chunk-60" alt="plot of chunk unnamed-chunk-60" style="display: block; margin: auto;" />
+
+geom
+=======================================================
+scatter plot
+
+```r
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point(aes(color = class),
+             position = "jitter")
+```
+
+<img src="Presentation-figure/unnamed-chunk-61-1.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
+
+geom
+=======================================================
+scatter plot + smooth
+
+```r
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point(aes(color = class),
+             position = "jitter") +
+  geom_smooth(method = "lm") #default method is "loess"
+```
+
+<img src="Presentation-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
+
+geom
+=======================================================
+histogram
+
+```r
+ggplot(mpg, aes(hwy))+
+  geom_histogram(binwidth = 5)
+```
+
+<img src="Presentation-figure/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" style="display: block; margin: auto;" />
+
+geom
+=======================================================
+bar plot
+
+```r
+ggplot(mpg, aes(class))+
+  geom_bar()
+```
+
+<img src="Presentation-figure/unnamed-chunk-64-1.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- Geom
+- **Stat transformations**
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+Stat Transformations
+=======================================================
+- Most geoms use stat = "identity" as a default
+  - A few exceptions: histogram & bar use stat = "count"
+- New geom layers of summarized data can be used with stat_summary
+
+Stat Transformations
+=======================================================
+bar plot with stat = "identity"  
+
+```r
+count(mpg, class) %>% 
+  ggplot(aes(x = class, y = n)) +
+  geom_bar(stat = "identity")
+```
+
+<img src="Presentation-figure/unnamed-chunk-65-1.png" title="plot of chunk unnamed-chunk-65" alt="plot of chunk unnamed-chunk-65" style="display: block; margin: auto;" />
+Stat Transformations
+=======================================================
+using stat_summary 
+
+```r
+ggplot(mtcars, aes(cyl, mpg)) + 
+  geom_point() + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
+```
+
+<img src="Presentation-figure/unnamed-chunk-66-1.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- Geom
+- Stat transformations
+- **Position Adjustments**
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+Position Adjustments
+=======================================================
+
+-  How components show in relation to each other  
+-  Defaults can be looked up in documentation ?geom_type
 
 
-ggplot2
+Position Adjustments
+=======================================================
+left: 50%
+
+```r
+ggplot(mpg,aes(cty, hwy)) +
+  geom_point()
+```
+
+<img src="Presentation-figure/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
+***
+
+```r
+ggplot(mpg,aes(cty, hwy)) +
+  geom_point(position = "jitter")
+```
+
+<img src="Presentation-figure/unnamed-chunk-68-1.png" title="plot of chunk unnamed-chunk-68" alt="plot of chunk unnamed-chunk-68" style="display: block; margin: auto;" />
+
+Position Adjustments
+========================================================
+
+
+```r
+ggplot(mpg, aes(x = class, fill = drv)) + 
+  geom_bar()
+```
+
+<img src="Presentation-figure/unnamed-chunk-69-1.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
+***
+
+```r
+ggplot(mpg, aes(x = class, fill = drv)) + 
+  geom_bar(position = "dodge")
+```
+
+<img src="Presentation-figure/unnamed-chunk-70-1.png" title="plot of chunk unnamed-chunk-70" alt="plot of chunk unnamed-chunk-70" style="display: block; margin: auto;" />
+
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- **Scales**
+- Coordinate system
+- Facets
+
+Scales
+======================================================
+
+- Scale functions customize the scales:     
+  - functions are named: scale + aesthetic parameter + how to scale 
+- Defaults are based on data type for aesthetic mappings  
+
+```r
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  scale_x_continuous() +
+  scale_y_continuous() +
+  scale_color_discrete()
+```
+
+<img src="Presentation-figure/unnamed-chunk-71-1.png" title="plot of chunk unnamed-chunk-71" alt="plot of chunk unnamed-chunk-71" style="display: block; margin: auto;" />
+
+gplot2
 =======================================================
 left: 20%
 geom
@@ -3944,7 +4177,7 @@ ggplot(cars, aes(speed, dist))+
   geom_smooth(method = "lm")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-59-1.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-72-1.png" title="plot of chunk unnamed-chunk-72" alt="plot of chunk unnamed-chunk-72" style="display: block; margin: auto;" />
 
 ggplot2
 =======================================================
@@ -3964,7 +4197,7 @@ ggplot(mtcars, aes(mpg))+
   geom_histogram(binwidth = 5)
 ```
 
-<img src="Presentation-figure/unnamed-chunk-60-1.png" title="plot of chunk unnamed-chunk-60" alt="plot of chunk unnamed-chunk-60" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-73-1.png" title="plot of chunk unnamed-chunk-73" alt="plot of chunk unnamed-chunk-73" style="display: block; margin: auto;" />
 
 
 ggplot2
@@ -3985,70 +4218,9 @@ ggplot(flights, aes(carrier))+
   geom_bar()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-61-1.png" title="plot of chunk unnamed-chunk-61" alt="plot of chunk unnamed-chunk-61" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-74-1.png" title="plot of chunk unnamed-chunk-74" alt="plot of chunk unnamed-chunk-74" style="display: block; margin: auto;" />
 
 
-ggplot2
-=======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram
-  - **bar**
-  - line
-
-
-***
-
-```r
-ggplot(result, aes(name, total))+
-  geom_bar(stat= "identity")
-```
-
-<img src="Presentation-figure/unnamed-chunk-62-1.png" title="plot of chunk unnamed-chunk-62" alt="plot of chunk unnamed-chunk-62" style="display: block; margin: auto;" />
-
-ggplot2
-=======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram 
-  - **bar**
-  - line
-
-
-***
-
-```r
-ggplot(result,  aes(name, total))+
-  geom_bar(stat = "identity") +
-  coord_flip()
-```
-
-<img src="Presentation-figure/unnamed-chunk-63-1.png" title="plot of chunk unnamed-chunk-63" alt="plot of chunk unnamed-chunk-63" style="display: block; margin: auto;" />
-ggplot2
-=======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram 
-  - bar
-  - **line**
-
-
-***
-
-```r
-group_by(flights, carrier, month) %>% 
-  summarize(count = n()) %>% 
-  ggplot(aes(month, count, group = carrier))+
-  geom_line()
-```
-
-<img src="Presentation-figure/unnamed-chunk-64-1.png" title="plot of chunk unnamed-chunk-64" alt="plot of chunk unnamed-chunk-64" style="display: block; margin: auto;" />
 
 
 

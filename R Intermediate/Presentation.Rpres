@@ -647,10 +647,10 @@ result <- left_join(flights, airlines) %>%
 ```
 
 
-ggplot
+Visualization
 =======================================================
 
-- Overview
+- Overview of ggplot
 - Geom
 - Stat transformations
 - Position Adjustments
@@ -659,11 +659,35 @@ ggplot
 - Facets
 - Labels and Annotation
 
-
-Graphs with ggplot2
+Visualization
 =======================================================
 
-Arguments of a graph:  
+- **Overview of ggplot**
+- Geom
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+ggplot2
+=======================================================
+
+- popular and robust package for building graphs
+    - gg = grammar of graphics  
+- main function is ggplot() with many functions used in support  
+- builds graphic elements layer by layer
+- a plus sign (+) is used between elements
+- can be overwhelming
+  - keep in mind the framework 
+  - use the cheatsheet
+
+
+ggplot2:ggplot()
+=======================================================
+
+Layers and main arguments needed:  
 -  data = the data being plotted  
 -  geom = the geometric objects (circles, lines, etc.) that appear on the plot   
 -  aes = a set of mappings from variables in the data to the aesthetics (appearance) of the geometric objects    
@@ -675,42 +699,217 @@ Arguments of a graph:
 
 https://uc-r.github.io/ggplot_intro
 
-
-ggplot2
+ggplot2:ggplot()
 =======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram 
-  - bar
-  - line
 
-***
-```{r, fig.align = 'center'}
+template:  
+```{r, eval = FALSE}
+ggplot(data, general aesthetic mapping) +  
+  geom_layer_1...n(unique aesthetic mapping,  
+                  stat properties,  
+                  position properties) +  
+  scale properties +  
+  coor properties +  
+  facet properties +  
+  label properties
+  
+```
+
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- **Geom**
+- Stat transformations
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+geom
+=======================================================
+no geom:  
+```{r, fig.align = 'center', fig.width= 18}
 library(ggplot2)
 ggplot(data= cars, mapping = aes(speed,dist))
 ```
-ggplot2
-=======================================================
-left: 20%
+
 geom
-  - **point**
-  - smooth
-  - histogram 
-  - bar
-  - line
+=======================================================
+- each geom has its required or optional aesthetic mappings:  
+  - geom_area: x, y, alpha, color, fill, linetype, size
+- geoms can inherit the data and some mapping arguments from initial ggplot function  
+- each geom has set default stat and position 
+  - geom_point: 
+      stat = "count"  
+      position = "identity"  
+- use help to see defaults: ?geom_name
 
-
-***
-```{r, fig.align = 'center'}
+geom
+=======================================================
+scatter plot
+```{r, fig.align = 'center', fig.width= 18}
 library(ggplot2)
-ggplot(cars, mapping = aes(speed,dist)) +
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point()
 ```
 
+geom
+=======================================================
+scatter plot
+```{r, fig.align = 'center', fig.width= 18}
+library(ggplot2)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point(mapping = aes(color = class),
+             position = "jitter")
+```
 
-ggplot2
+geom
+=======================================================
+scatter plot
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point(aes(color = class),
+             position = "jitter")
+```
+
+geom
+=======================================================
+scatter plot + smooth
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point(aes(color = class),
+             position = "jitter") +
+  geom_smooth(method = "lm") #default method is "loess"
+```
+
+geom
+=======================================================
+histogram
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(hwy))+
+  geom_histogram(binwidth = 5)
+```
+
+geom
+=======================================================
+bar plot
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(class))+
+  geom_bar()
+```
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- Geom
+- **Stat transformations**
+- Position Adjustments
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+Stat Transformations
+=======================================================
+- Most geoms use stat = "identity" as a default
+  - A few exceptions: histogram & bar use stat = "count"
+- New geom layers of summarized data can be used with stat_summary
+
+Stat Transformations
+=======================================================
+bar plot with stat = "identity"  
+```{r, fig.align = 'center', fig.width= 18}
+count(mpg, class) %>% 
+  ggplot(aes(x = class, y = n)) +
+  geom_bar(stat = "identity")
+```
+Stat Transformations
+=======================================================
+using stat_summary 
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mtcars, aes(cyl, mpg)) + 
+  geom_point() + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
+```
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- Geom
+- Stat transformations
+- **Position Adjustments**
+- Scales
+- Coordinate system
+- Facets
+- Labels and Annotation
+
+Position Adjustments
+=======================================================
+
+-  How components show in relation to each other  
+-  Defaults can be looked up in documentation ?geom_type
+
+
+Position Adjustments
+=======================================================
+left: 50%
+```{r, fig.align = 'center', fig.width= 9}
+ggplot(mpg,aes(cty, hwy)) +
+  geom_point()
+```
+***
+```{r, fig.align = 'center', fig.width= 9}
+ggplot(mpg,aes(cty, hwy)) +
+  geom_point(position = "jitter")
+```
+
+Position Adjustments
+========================================================
+
+```{r,fig.align = 'center', fig.width= 9 }
+ggplot(mpg, aes(x = class, fill = drv)) + 
+  geom_bar()
+```
+***
+```{r,fig.align = 'center', fig.width= 9 }
+ggplot(mpg, aes(x = class, fill = drv)) + 
+  geom_bar(position = "dodge")
+```
+
+
+Visualization
+=======================================================
+
+- Overview of ggplot
+- Geom
+- Stat transformations
+- Position Adjustments
+- **Scales**
+- Coordinate system
+- Facets
+
+Scales
+======================================================
+
+- Scale functions customize the scales:     
+  - functions are named: scale + aesthetic parameter + how to scale 
+- Defaults are based on data type for aesthetic mappings  
+```{r, fig.align = 'center', fig.width= 18}
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
+  geom_point() +
+  scale_x_continuous() +
+  scale_y_continuous() +
+  scale_color_discrete()
+  
+```
+
+gplot2
 =======================================================
 left: 20%
 geom
@@ -764,58 +963,6 @@ ggplot(flights, aes(carrier))+
 ```  
 
 
-ggplot2
-=======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram
-  - **bar**
-  - line
-
-
-***
-```{r, fig.align = 'center'}
-ggplot(result, aes(name, total))+
-  geom_bar(stat= "identity")
-```
-
-ggplot2
-=======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram 
-  - **bar**
-  - line
-
-
-***
-```{r, fig.align = 'center'}
-ggplot(result,  aes(name, total))+
-  geom_bar(stat = "identity") +
-  coord_flip()
-```
-ggplot2
-=======================================================
-left: 20%
-geom
-  - point
-  - smooth
-  - histogram 
-  - bar
-  - **line**
-
-
-***
-```{r, fig.align = 'center'}
-group_by(flights, carrier, month) %>% 
-  summarize(count = n()) %>% 
-  ggplot(aes(month, count, group = carrier))+
-  geom_line()
-```
 
 
 
