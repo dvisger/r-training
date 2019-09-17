@@ -71,7 +71,7 @@ sessioninfo::platform_info()
  collate  English_United States.1252  
  ctype    English_United States.1252  
  tz       America/New_York            
- date     2019-09-16                  
+ date     2019-09-17                  
 ```
 
 Logistics
@@ -3591,6 +3591,7 @@ ggplot2
 - can be overwhelming
   - keep in mind the framework 
   - use the cheatsheet
+  - use ?function name to see arguments and examples
 
 
 ggplot2:ggplot()
@@ -3729,11 +3730,20 @@ ggplot(mpg, aes(class))+
 
 <img src="Presentation-figure/unnamed-chunk-65-1.png" title="plot of chunk unnamed-chunk-65" alt="plot of chunk unnamed-chunk-65" style="display: block; margin: auto;" />
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
-When to use a bar plot vs histogram?  
-Bar gets discrete & histogram is continuous
+data is mpg  
+scatter plot cyl as x and displ as y  
+
+
+```r
+ggplot(mpg, aes(cyl, displ))+
+  geom_point()
+```
+
+<img src="Presentation-figure/unnamed-chunk-66-1.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
+
 
 Visualization
 =======================================================
@@ -3763,7 +3773,7 @@ count(mpg, class) %>%
   geom_bar(stat = "identity")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-66-1.png" title="plot of chunk unnamed-chunk-66" alt="plot of chunk unnamed-chunk-66" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
 Stat Transformations
 =======================================================
 using stat_summary 
@@ -3774,15 +3784,22 @@ ggplot(mtcars, aes(cyl, mpg)) +
   stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-67-1.png" title="plot of chunk unnamed-chunk-67" alt="plot of chunk unnamed-chunk-67" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-68-1.png" title="plot of chunk unnamed-chunk-68" alt="plot of chunk unnamed-chunk-68" style="display: block; margin: auto;" />
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
-  
-Can you use the same data source to plot multiple stats in one graph?  
-  
-Yes! You can calculate various measures and add them as different layers
+
+Take the last section's graph and add a red point for the mean for each cyl 
+
+
+```r
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point() + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
+```
+
+<img src="Presentation-figure/unnamed-chunk-69-1.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
 
 Visualization
 =======================================================
@@ -3812,7 +3829,7 @@ ggplot(mpg,aes(cty, hwy)) +
   geom_point()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-68-1.png" title="plot of chunk unnamed-chunk-68" alt="plot of chunk unnamed-chunk-68" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-70-1.png" title="plot of chunk unnamed-chunk-70" alt="plot of chunk unnamed-chunk-70" style="display: block; margin: auto;" />
 ***
 
 ```r
@@ -3820,7 +3837,7 @@ ggplot(mpg,aes(cty, hwy)) +
   geom_point(position = "jitter")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-69-1.png" title="plot of chunk unnamed-chunk-69" alt="plot of chunk unnamed-chunk-69" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-71-1.png" title="plot of chunk unnamed-chunk-71" alt="plot of chunk unnamed-chunk-71" style="display: block; margin: auto;" />
 
 Position Adjustments
 ========================================================
@@ -3831,7 +3848,7 @@ ggplot(mpg, aes(x = class, fill = drv)) +
   geom_bar()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-70-1.png" title="plot of chunk unnamed-chunk-70" alt="plot of chunk unnamed-chunk-70" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-72-1.png" title="plot of chunk unnamed-chunk-72" alt="plot of chunk unnamed-chunk-72" style="display: block; margin: auto;" />
 ***
 
 ```r
@@ -3839,15 +3856,22 @@ ggplot(mpg, aes(x = class, fill = drv)) +
   geom_bar(position = "dodge")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-71-1.png" title="plot of chunk unnamed-chunk-71" alt="plot of chunk unnamed-chunk-71" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-73-1.png" title="plot of chunk unnamed-chunk-73" alt="plot of chunk unnamed-chunk-73" style="display: block; margin: auto;" />
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-Where does the position argument go?  
-  
-As a first level argument of the geom  
+add a jitter to the points in the last chart
+
+
+```r
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
+```
+
+<img src="Presentation-figure/unnamed-chunk-74-1.png" title="plot of chunk unnamed-chunk-74" alt="plot of chunk unnamed-chunk-74" style="display: block; margin: auto;" />
 
 Visualization
 =======================================================
@@ -3876,7 +3900,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   scale_color_discrete()
 ```
 
-<img src="Presentation-figure/unnamed-chunk-72-1.png" title="plot of chunk unnamed-chunk-72" alt="plot of chunk unnamed-chunk-72" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-75-1.png" title="plot of chunk unnamed-chunk-75" alt="plot of chunk unnamed-chunk-75" style="display: block; margin: auto;" />
 
 Scales
 =======================================================
@@ -3888,7 +3912,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   scale_y_continuous(breaks = seq(10, 46, by = 2)) 
 ```
 
-<img src="Presentation-figure/unnamed-chunk-73-1.png" title="plot of chunk unnamed-chunk-73" alt="plot of chunk unnamed-chunk-73" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-76-1.png" title="plot of chunk unnamed-chunk-76" alt="plot of chunk unnamed-chunk-76" style="display: block; margin: auto;" />
 
 Check-in
 =======================================================
@@ -3925,16 +3949,23 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   coord_cartesian(xlim = c(20, 30), ylim = c(20,30))
 ```
 
-<img src="Presentation-figure/unnamed-chunk-74-1.png" title="plot of chunk unnamed-chunk-74" alt="plot of chunk unnamed-chunk-74" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-77-1.png" title="plot of chunk unnamed-chunk-77" alt="plot of chunk unnamed-chunk-77" style="display: block; margin: auto;" />
 note: if you use xlim() and ylim() functions instead it will *delete* those points which alter stats and models in the graph
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-What coordinate option would you use if you had long names in the x axis?
-  
-coor_flip()
+Take the last example chart and make the x and y limits 0:10
+
+```r
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point") +
+  coord_cartesian(xlim = c(0, 10), ylim = c(0,10))
+```
+
+<img src="Presentation-figure/unnamed-chunk-78-1.png" title="plot of chunk unnamed-chunk-78" alt="plot of chunk unnamed-chunk-78" style="display: block; margin: auto;" />
 
 Visualization
 =======================================================
@@ -3968,7 +3999,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   facet_grid(rows = vars(year), cols = vars(cyl))
 ```
 
-<img src="Presentation-figure/unnamed-chunk-75-1.png" title="plot of chunk unnamed-chunk-75" alt="plot of chunk unnamed-chunk-75" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-79-1.png" title="plot of chunk unnamed-chunk-79" alt="plot of chunk unnamed-chunk-79" style="display: block; margin: auto;" />
 
 Facets
 =======================================================
@@ -3981,15 +4012,23 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   facet_wrap(facets = vars(cyl, drv), scales = "free_y")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-76-1.png" title="plot of chunk unnamed-chunk-76" alt="plot of chunk unnamed-chunk-76" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-80-1.png" title="plot of chunk unnamed-chunk-80" alt="plot of chunk unnamed-chunk-80" style="display: block; margin: auto;" />
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-What kind of variable can you facet graphs for?
-  
-Discrete
+Take the working example without the coor layer and facet wrap based on class
+
+
+```r
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point") +
+  facet_wrap(facets = vars(class))
+```
+
+<img src="Presentation-figure/unnamed-chunk-81-1.png" title="plot of chunk unnamed-chunk-81" alt="plot of chunk unnamed-chunk-81" style="display: block; margin: auto;" />
 
 Visualization
 =======================================================
@@ -4018,7 +4057,7 @@ ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
        color = "Car Type")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-77-1.png" title="plot of chunk unnamed-chunk-77" alt="plot of chunk unnamed-chunk-77" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-82-1.png" title="plot of chunk unnamed-chunk-82" alt="plot of chunk unnamed-chunk-82" style="display: block; margin: auto;" />
 
 Annotations
 =======================================================
@@ -4037,15 +4076,24 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
   annotate("text", label = "random annotation", x = 5, y = 35, size = 8, color = "red")
 ```
 
-<img src="Presentation-figure/unnamed-chunk-78-1.png" title="plot of chunk unnamed-chunk-78" alt="plot of chunk unnamed-chunk-78" style="display: block; margin: auto;" />
+<img src="Presentation-figure/unnamed-chunk-83-1.png" title="plot of chunk unnamed-chunk-83" alt="plot of chunk unnamed-chunk-83" style="display: block; margin: auto;" />
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-What argument to specify titles for charts or axis?
-  
-labs()
+Add a title to the last example chart
+
+
+```r
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point") +
+  facet_wrap(facets = vars(class))+
+  labs(title = "Displacement and number of Cylinders by Car Class")
+```
+
+<img src="Presentation-figure/unnamed-chunk-84-1.png" title="plot of chunk unnamed-chunk-84" alt="plot of chunk unnamed-chunk-84" style="display: block; margin: auto;" />
 
 Saving a graph
 ======================================================

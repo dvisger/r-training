@@ -683,6 +683,7 @@ ggplot2
 - can be overwhelming
   - keep in mind the framework 
   - use the cheatsheet
+  - use ?function name to see arguments and examples
 
 
 ggplot2:ggplot()
@@ -800,11 +801,17 @@ ggplot(mpg, aes(class))+
   geom_bar()
 ```
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
-When to use a bar plot vs histogram?  
-Bar gets discrete & histogram is continuous
+data is mpg  
+scatter plot cyl as x and displ as y  
+
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cyl, displ))+
+  geom_point()
+```
+
 
 Visualization
 =======================================================
@@ -841,13 +848,17 @@ ggplot(mtcars, aes(cyl, mpg)) +
   stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
 ```
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
-  
-Can you use the same data source to plot multiple stats in one graph?  
-  
-Yes! You can calculate various measures and add them as different layers
+
+Take the last section's graph and add a red point for the mean for each cyl 
+
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point() + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
+```
 
 Visualization
 =======================================================
@@ -894,13 +905,17 @@ ggplot(mpg, aes(x = class, fill = drv)) +
   geom_bar(position = "dodge")
 ```
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-Where does the position argument go?  
-  
-As a first level argument of the geom  
+add a jitter to the points in the last chart
+
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point")
+```
 
 Visualization
 =======================================================
@@ -978,13 +993,17 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
 ```
 note: if you use xlim() and ylim() functions instead it will *delete* those points which alter stats and models in the graph
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-What coordinate option would you use if you had long names in the x axis?
-  
-coor_flip()
+Take the last example chart and make the x and y limits 0:10
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point") +
+  coord_cartesian(xlim = c(0, 10), ylim = c(0,10))
+```
 
 Visualization
 =======================================================
@@ -1031,13 +1050,18 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = class)) +
   
 ```
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-What kind of variable can you facet graphs for?
-  
-Discrete
+Take the working example without the coor layer and facet wrap based on class
+
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point") +
+  facet_wrap(facets = vars(class))
+```
 
 Visualization
 =======================================================
@@ -1083,13 +1107,19 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
   annotate("text", label = "random annotation", x = 5, y = 35, size = 8, color = "red")
 ```
 
-Check-in
+Your Turn
 =======================================================
 incremental: true
   
-What argument to specify titles for charts or axis?
-  
-labs()
+Add a title to the last example chart
+
+```{r, fig.align = 'center', fig.width= 18}
+ggplot(mpg, aes(cyl, displ)) + 
+  geom_point(position = "jitter") + 
+  stat_summary(fun.y = "mean", color = "red", size = 4, geom = "point") +
+  facet_wrap(facets = vars(class))+
+  labs(title = "Displacement and number of Cylinders by Car Class")
+```
 
 Saving a graph
 ======================================================
