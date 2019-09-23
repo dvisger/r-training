@@ -588,8 +588,8 @@ flights %>%
 ```
 dplyr::group_by()
 ========================================================
-calculating a new variable by group but not summarizing  
-for example if we want to see if a particular flight is better or worse than the airport average for dep delay:
+calculating a new variable by group but keeping detail level  
+Calculate the difference of a particular flight compared to the airport average for departure delay: 
 
 ```{r, }
 delay_origin <- flights %>% 
