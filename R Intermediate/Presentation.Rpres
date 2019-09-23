@@ -1,7 +1,7 @@
 R Training: Intermediate
 ========================================================
 author: 
-date: 2019-09-17
+date: 2019-09-20
 width: 1440
 height: 900
 <style>
@@ -23,13 +23,12 @@ Follow along in R by running what is in the code block
   
 Please install and load packages to start: 
 ```{r, eval=FALSE}
-install.packages("tidyverse")
-install.packages("nycflights13")  
+install.packages(c("nycflights13", "tidyverse"))
 ```
 
 ```{r}
-library(tidyverse)
 library(nycflights13)
+library(tidyverse)
 ```
 
 ## Please ask questions as we go!
@@ -114,7 +113,7 @@ Data Wrangling
 Data Wrangling 
 ========================================================
 
-- **Introduction to tidyverse ** 
+- **Introduction to tidyverse** 
 - Data Wrangling Part 1: Subset
 - Data Wrangling Part 2: Make new variables
 - Data Wrangling Part 3: Combine data sets
@@ -207,14 +206,19 @@ filter(cars, speed < 8)
 Logical operators
 ========================================================
 
-![logic](logic.PNG)
+
+<div align="center">
+<img src="logic.PNG" width=1000 height=458>
+</div>
 
 Source: https://rstudio-education.github.io/hopr/modify.html#logical-subsetting
 
 Boolean operators
 ========================================================
 
-![logic](boolean.PNG)
+<div align="center">
+<img src="boolean.PNG" width=1000 height=502>
+</div>
 
 Source: https://rstudio-education.github.io/hopr/modify.html#logical-subsetting
 
@@ -535,7 +539,7 @@ Data Wrangling
 
 Data Wrangling: Summarizing Objectives
 ========================================================
-- Use the group_by() function with summarize()  
+- Use the group_by() function with summarize() and mutate() 
 - Use the spread() and gather() functions  
     
 dplyr::group_by()
@@ -582,20 +586,41 @@ flights %>%
             sum_delay = sum(arr_delay, na.rm = TRUE),
             avg_delay = sum_delay/ delay_count)
 ```
+dplyr::group_by()
+========================================================
+calculating a new variable by group but not summarizing  
+for example if we want to see if a particular flight is better or worse than the airport average for dep delay:
+
+```{r, }
+delay_origin <- flights %>% 
+  group_by(origin) %>% 
+  mutate(sum_dep_delay = sum(dep_delay, na.rm = TRUE),
+         count_origin = sum(!is.na(dep_delay)),
+         avg_origin_delay = sum_dep_delay/ count_origin,
+         dep_delay_v_avg = dep_delay - avg_origin_delay)
+```
+```{r, echo = FALSE}
+kable(head(delay_origin))%>% scroll_box(width = "100%")
+```
+
 
 tidyr::spread()
 ========================================================
+incremental: true
 make unique row values into columns   
-Example: want to summarize month by carrier 
-```{r}
-carrier_month <- flights %>% 
-  group_by(month, carrier) %>% 
-  summarize(count = n()) %>% 
-  spread(carrier, count)
+Typically moving a generic "type-value" pair:
 
+```{r, echo = FALSE}
+kable(table2)
+```
+***
+  
+  
+```{r, eval = FALSE}
+spread(table2, type, count)
 ```
 ```{r, echo = FALSE}
-kable(head(carrier_month)) %>% scroll_box(width = "100%")
+kable(spread(table2, type, count))
 ```
 
 
@@ -603,10 +628,21 @@ tidyr::gather()
 =======================================================
 the converse of spread--usually to make a data set tidy  
 arguments: name of gathered variable, name of metric, columns to gather or exclude  
-```{r}
-carrier_month %>% 
-  gather("Carrier", "count", -month)
+Example: WorldPhones
+```{r, echo = FALSE}
+kable(WorldPhones)
 ```
+
+tidyr::gather()
+=======================================================
+
+arguments: name of gathered variable, name of metric, columns to gather or exclude
+```{r}
+as.data.frame(WorldPhones) %>% 
+  rownames_to_column(var = "year") %>% 
+  gather(Region, k_telephones, -year)
+```
+
 
 Your Turn
 =======================================================
@@ -979,8 +1015,8 @@ Coordinate system
 =======================================================
 - Layers added to change the coordinates  
 - Most common used functions are:  
-  -coord_cartesian(xlim = , ylim =)  
-  -coord_flip()
+  - coord_cartesian(xlim = , ylim =)  
+  - coord_flip()
 
 Coordinate system
 =======================================================
